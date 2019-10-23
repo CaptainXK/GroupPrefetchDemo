@@ -2,8 +2,12 @@
 #define _LOOKUP_
 
 #include <inttypes.h>
+#include <errno.h>
 #include <stdio.h>
 #include <assert.h>
+#include <stdbool.h>
+#include <stdlib.h>//exit()
+#include <string.h>//strerror
 
 #define MAX_HASH_TABLE (1<<20)
 #define MAX_KEY (1<<20)
@@ -11,6 +15,12 @@
 #define NOT_FOUND (2U)
 
 #define PREFETCH(x) __builtin_prefetch(x)
+
+#define DOASSERT(x)\
+        if((x) == false){\
+          printf("Error (%s:%s():%d):%s\n", __FILE__, __func__, __LINE__, strerror(errno));\
+          exit(1);\
+        }
 
 //hash table bucket entry
 struct BucketEntry{
@@ -44,7 +54,7 @@ int findGprefetch(const Key_t * key, int len, uint8_t * ports);
 static inline void flushCache()
 {
   FILE *fp = fopen("/proc/sys/vm/drop_caches", "w");
-  assert(fp != NULL);
+  DOASSERT(fp != NULL);
 
   fprintf(fp, "3");
 

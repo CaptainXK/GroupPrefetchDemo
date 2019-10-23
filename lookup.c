@@ -9,7 +9,8 @@
 
 #define TIMER_INIT()\
         struct timeval begin_t, end_t;\
-        uint64_t dura_t;
+        uint64_t dura_t;\
+        double speed_t;
 
 #define TIMER_START()\
         gettimeofday(&begin_t, NULL);
@@ -17,7 +18,7 @@
 #define TIMER_STOP()\
         gettimeofday(&end_t, NULL);\
         dura_t = ((int64_t)end_t.tv_sec * 1000000 + end_t.tv_usec) - ((int64_t)begin_t.tv_sec * 1000000 + begin_t.tv_usec);\
-        printf("Tot time %ld us\n", dura_t);
+        printf("Speed %.3lfM/s\n", ((double)MAX_TEST / ((double)(dura_t) / 1000000)) / (1<<20) );
 
 
 //global var
