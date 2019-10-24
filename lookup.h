@@ -42,13 +42,19 @@ struct Key_t{
 }__attribute__((packed));
 typedef struct Key_t Key_t;
 
-//find function
+//find function adapter
 typedef int (*Find)(const Key_t * key, int len, uint8_t * ports);
 
-void init();
+//benchmark API
 void benchmark(Find findFunc, const char * debugStr);
-int findNormal(const Key_t * key, int len, uint8_t * ports);
-int findGprefetch(const Key_t * key, int len, uint8_t * ports);
+
+//init hash table, rule list and test data list
+void init();
+
+//lookup api
+int findNormal(const Key_t * key, int len, uint8_t * ports);//normal version
+int findGprefetch(const Key_t * key, int len, uint8_t * ports);//group prefetch version
+int findGopt(const Key_t * key, int len, uint8_t * ports);//G-opt version
 
 //flush all cache
 static inline void flushCache()
