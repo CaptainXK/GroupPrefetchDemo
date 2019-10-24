@@ -7,6 +7,7 @@ int main(){
   
   benchmark(findNormal, "Normal find");
   benchmark(findGprefetch, "Gprefetch find");
+  benchmark(findGopt, "G-opt find");
 
   return 0;
 }
